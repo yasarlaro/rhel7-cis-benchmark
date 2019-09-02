@@ -5,6 +5,7 @@
     dest: /etc/audit/auditd.conf
     line: "admin_space_left_action = single"
     regexp: "^admin_space_left_action*"
+  notify: reload auditd  
 
 - name: Deploy /etc/audit/audit.rules
   template:
@@ -13,6 +14,7 @@
     owner: root
     group: root
     mode: 0640
+  notify: reload auditd
 
 - name: Deploy /etc/audit/rules.d/privileged.rules
   template:
@@ -21,6 +23,7 @@
     owner: root
     group: root
     mode: 0640
+  notify: reload auditd
 
 
 - name: Deploy /etc/audit/rules.d/access.rules

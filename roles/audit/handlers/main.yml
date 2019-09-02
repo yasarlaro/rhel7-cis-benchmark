@@ -1,2 +1,6 @@
 ---
 # handlers file for audit
+- name: reload auditd
+  service:
+    name: auditd
+    state: reloaded
