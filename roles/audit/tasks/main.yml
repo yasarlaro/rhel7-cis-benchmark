@@ -1,2 +1,32 @@
 ---
 # tasks file for audit
+- name: Configure auditd admin_space_left Action on Low Disk Space
+  lineinfile:
+    dest: /etc/audit/auditd.conf
+    line: "admin_space_left_action = single"
+    regexp: "^admin_space_left_action*"
+
+- name: Deploy /etc/audit/audit.rules
+  template:
+    src: audit.rules
+    dest: /etc/audit/audit.rules
+    owner: root
+    group: root
+    mode: 0640
+
+- name: Deploy /etc/audit/rules.d/privileged.rules
+  template:
+    src: privileged.rules
+    dest: /etc/audit/rules.d/privileged.rules
+    owner: root
+    group: root
+    mode: 0640
+
+
+- name: Deploy /etc/audit/rules.d/access.rules
+  template:
+    src: access.rules
+    dest: /etc/audit/rules.d/access.rules
+    owner: root
+    group: root
+    mode: 0640

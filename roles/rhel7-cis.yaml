@@ -1,0 +1,5 @@
+---
+- name: RHEL 7 CIS Benchmark Hardening Play
+  hosts: all
+  roles:
+    - audit
