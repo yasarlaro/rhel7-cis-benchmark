@@ -31,3 +31,6 @@
     - privileged.rules
     - time-change.rules
   notify: reload auditd
+
+- name: Enable Auditing for Processes Which Start Prior to the Audit Daemon
+  script: enable_auditd_in_grub.sh
