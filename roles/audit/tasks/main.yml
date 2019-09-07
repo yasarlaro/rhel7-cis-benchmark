@@ -7,29 +7,27 @@
     regexp: "^admin_space_left_action*"
   notify: reload auditd  
 
-- name: Deploy /etc/audit/audit.rules
+- name: Deploy audit rules
   template:
-    src: audit.rules
-    dest: /etc/audit/audit.rules
+    src: "{{ item }}"
+    dest: "/etc/audit/rules.d/{{ item }}"
     owner: root
     group: root
-    mode: 0640
+    mode: 0600
+  loop:
+    - access.rules
+    - actions.rules
+    - audit_rules_networkconfig_modification.rules
+    - audit_rules_usergroup_modification.rules
+    - delete.rules
+    - audit_time_rules.rules
+    - export.rules
+    - immutable.rules
+    - MAC-policy.rules
+    - logins.rules
+    - modules.rules
+    - perm_mod.rules
+    - session.rules
+    - privileged.rules
+    - time-change.rules
   notify: reload auditd
-
-- name: Deploy /etc/audit/rules.d/privileged.rules
-  template:
-    src: privileged.rules
-    dest: /etc/audit/rules.d/privileged.rules
-    owner: root
-    group: root
-    mode: 0640
-  notify: reload auditd
-
-
-- name: Deploy /etc/audit/rules.d/access.rules
-  template:
-    src: access.rules
-    dest: /etc/audit/rules.d/access.rules
-    owner: root
-    group: root
-    mode: 0640
