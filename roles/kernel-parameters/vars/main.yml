@@ -21,3 +21,6 @@ sysctl_net_ipv6_conf_default_accept_ra_value: 0
 sysctl_net_ipv6_conf_all_accept_ra_value: 0
 sysctl_net_ipv6_conf_default_accept_redirects_value: 0
 sysctl_net_ipv6_conf_all_disable_ipv6: 1
+sysctl_kernel_randomize_va_space_value: 2
+sysctl_fs_suid_dumpable_value: 0
+kernel_core_dump_config: /etc/security/limits.d/10-hardcore.conf

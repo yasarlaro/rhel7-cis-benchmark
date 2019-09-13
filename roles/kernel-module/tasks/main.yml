@@ -1,0 +1,26 @@
+---
+# tasks file for kernel-module
+- name: Ensure kernel module mounting of certain filesystems is disabled
+  lineinfile:
+    create: yes
+    dest: "/etc/modprobe.d/{{item}}.conf"
+    regexp: '{{item}}'
+    line: "install {{item}} /bin/true"
+  with_items:
+    - hfs
+    - freevxfs
+    - udf
+    - squashfs
+    - hfsplus
+    - jffs2
+    - cramfs
+
+- name: Ensure kernel module of uncommon network protocols is disabled
+  lineinfile:
+    create: yes
+    dest: "/etc/modprobe.d/{{item}}.conf"
+    regexp: '{{item}}'
+    line: "install {{item}} /bin/true"
+  with_items:
+    - dccp
+    - sctp

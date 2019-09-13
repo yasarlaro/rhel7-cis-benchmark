@@ -1,0 +1,5 @@
+---
+# vars file for mount-options
+tmp_mount_opts: "rw,nosuid,nodev,noexec,relatime,attr2,inode64,noquota"
+home_mount_opts: "rw,relatime,attr2,inode64,noquota,nodev"
+devshm_mount_opts: "rw,nosuid,nodev,noexec,noexec"

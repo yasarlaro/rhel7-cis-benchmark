@@ -1,0 +1,56 @@
+---
+# tasks file for mount-options
+- name: get back device associated to mountpoint of /tmp
+  shell: mount | grep ' /tmp ' |cut -d ' ' -f 1
+  register: device_name
+  check_mode: no
+
+- name: get back device fstype
+  shell: mount | grep ' /tmp ' | cut -d ' ' -f 5
+  register: device_fstype
+  check_mode: no
+
+- name: Ensure permission nodev,noexec,nosuid are set on /tmp
+  mount:
+    path: "/tmp"
+    src: "{{device_name.stdout}}"
+    opts: "{{ tmp_mount_opts }}"
+    state: "mounted"
+    fstype: "{{device_fstype.stdout}}"
+
+- name: get back device associated to mountpoint of /home
+  shell: mount | grep ' /home ' |cut -d ' ' -f 1
+  register: device_name
+  check_mode: no
+
+- name: get back device fstype of /home
+  shell: mount | grep ' /home ' | cut -d ' ' -f 5
+  register: device_fstype
+  check_mode: no
+
+- name: Ensure permission nodev are set on /home
+  mount:
+    path: "/home"
+    src: "{{device_name.stdout}}"
+    opts: "{{ home_mount_opts }}"
+    state: "mounted" 
+    fstype: "{{device_fstype.stdout}}"
+
+- name: get back device associated to mountpoint of /dev/shm
+  shell: mount | grep ' /dev/shm ' |cut -d ' ' -f 1
+  register: device_name
+  check_mode: no
+
+- name: get back device fstype of /dev/shm
+  shell: mount | grep ' /dev/shm ' | cut -d ' ' -f 5
+  register: device_fstype
+  check_mode: no
+  
+- name: Ensure permission noexec are set on /dev/shm
+  mount:
+    path: "/dev/shm"
+    src: "{{device_name.stdout}}"
+    opts: "{{ devshm_mount_opts }}"
+    state: "mounted"
+    fstype: "{{device_fstype.stdout}}"
+    

@@ -147,3 +147,25 @@
     state: present
     reload: yes
 
+- name: Ensure sysctl kernel.randomize_va_space is set to 2
+  sysctl:
+    name: kernel.randomize_va_space
+    value: "{{ sysctl_kernel_randomize_va_space_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl fs.suid_dumpable is set to 0
+  sysctl:
+    name: fs.suid_dumpable
+    value: "{{ sysctl_fs_suid_dumpable_value }}"
+    state: present
+    reload: yes
+
+- name: Disable Core Dumps for All Users
+  pam_limits:
+    dest: "{{ kernel_core_dump_config }}"
+    domain: '*'
+    limit_type: hard
+    limit_item: core
+    value: '0'
+

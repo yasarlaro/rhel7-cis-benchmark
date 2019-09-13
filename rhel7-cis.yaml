@@ -5,3 +5,6 @@
     - audit
     - services
     - kernel-parameters
+    - access-control
+    - kernel-module
+    - mount-options
