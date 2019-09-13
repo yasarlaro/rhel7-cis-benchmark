@@ -1,0 +1,10 @@
+---
+# vars file for services
+sshd_idle_timeout_value: 300
+sshd_approved_macs: "hmac-sha2-512,hmac-sha2-256,hmac-sha1,hmac-sha1-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com"
+sshd_chipers: "aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc"
+sshd_maxauthrries: 4
+aide_conf_file: "/etc/aide.conf"
+aide_conf_dir: "/etc/aide/aide.conf.d"
+aide_database_init_file: /var/lib/aide/aide.db.new.gz
+aide_database_file: /var/lib/aide/aide.db.gz

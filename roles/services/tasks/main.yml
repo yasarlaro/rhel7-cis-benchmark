@@ -1,0 +1,149 @@
+---
+# tasks file for services
+- name: Ensure tcp_wrappers is installed
+  package:
+    name: "{{item}}"
+    state: present
+  loop:
+    - tcp_wrappers
+
+- name: Disable service rhnsd
+  service:
+    name: "{{item}}"
+    enabled: "no"
+    state: "stopped"
+  register: service_result
+  failed_when: "service_result is failed and ('Could not find the requested service' not in service_result.msg)"
+  loop:
+    - rhnsd
+
+- name: Disable SSH Access via Empty Passwords
+  lineinfile:
+    create: yes
+    dest: /etc/ssh/sshd_config
+    regexp: ^PermitEmptyPasswords
+    line: PermitEmptyPasswords no
+    validate: sshd -t -f %s
+
+- name: Set SSH Client Alive Count
+  lineinfile:
+    create: yes
+    dest: /etc/ssh/sshd_config
+    regexp: ^ClientAliveCountMax
+    line: ClientAliveCountMax 0
+    validate: sshd -t -f %s
+  notify: restart sshd
+
+- name: Set SSH Idle Timeout Interval
+  lineinfile:
+    create: yes
+    dest: /etc/ssh/sshd_config
+    regexp: ^ClientAliveInterval
+    line: "ClientAliveInterval {{ sshd_idle_timeout_value }}"
+    validate: sshd -t -f %s
+  notify: restart sshd
+
+- name: Enable SSH Warning Banner
+  lineinfile:
+    create: yes
+    dest: /etc/ssh/sshd_config
+    regexp: ^Banner
+    line: Banner /etc/issue
+    validate: sshd -t -f %s
+
+- name: "Use Only Approved MACs"
+  lineinfile:
+    create: yes
+    dest: /etc/ssh/sshd_config
+    regexp: ^MACs
+    line: "MACs {{ sshd_approved_macs }}"
+    validate: sshd -t -f %s
+  notify: restart sshd
+
+- name: Do Not Allow SSH Environment Options
+  lineinfile:
+    create: yes
+    dest: /etc/ssh/sshd_config
+    regexp: ^PermitUserEnvironment
+    line: PermitUserEnvironment no
+    validate: sshd -t -f %s
+
+- name: Set LogLevel to INFO
+  lineinfile:
+    create: yes
+    dest: /etc/ssh/sshd_config
+    regexp: ^LogLevel
+    line: LogLevel INFO
+    validate: sshd -t -f %s
+
+- name: Use Only Approved Ciphers
+  lineinfile:
+    create: yes
+    dest: /etc/ssh/sshd_config
+    regexp: ^Ciphers
+    line: "Ciphers {{ sshd_chipers}}" 
+    validate: sshd -t -f %s
+  notify: restart sshd
+
+- name: Set SSH authentication attempt limit
+  lineinfile:
+    create: yes
+    dest: /etc/ssh/sshd_config
+    regexp: ^MaxAuthTries
+    line: MaxAuthTries 4
+    validate: sshd -t -f %s
+
+- name: "Disable SSH Root Login"
+  lineinfile:
+    create: yes
+    dest: "/etc/ssh/sshd_config"
+    regexp: "^PermitRootLogin"
+    line: "PermitRootLogin no"
+    insertafter: '(?i)^#?authentication'
+    validate: sshd -t -f %s
+  notify: restart sshd
+
+- name: Ensure aide is installed
+  package:
+    name: "{{item}}"
+    state: present
+  with_items:
+    - aide
+
+- name: Verify that AIDE configuration directory exists
+  stat:
+    path: "{{ item }}"
+  register: aide_conf
+  check_mode: no
+  loop:
+    - "{{ aide_conf_dir }}"
+    - "{{ aide_conf_file }}"
+
+- name: Check to see if AIDE database is already in place
+  stat:
+    path: "{{ aide_database_file }}"
+  register: aide_database
+  check_mode: no
+
+- name: Initialize AIDE (this will take a few minutes)
+  shell: "if test -x /usr/sbin/aideinit; then aideinit; else aide -i; fi"
+  changed_when: false
+  register: aide_init
+  when:
+    - aide_conf.results[0].stat.exists | bool or aide_conf.results[1].stat.exists | bool
+    - not aide_database.stat.exists | bool
+
+- name: Move AIDE database into place
+  command: "mv {{ aide_database_init_file }} {{ aide_database_file }}"
+  changed_when: false
+  when:
+    - aide_init is not skipped
+
+- name: "Configure Periodic Execution of AIDE"
+  cron:
+    name: "run AIDE check"
+    minute: 05
+    hour: 04
+    user: root
+    job: "/usr/sbin/aide --check"
+    cron_file: aide-check

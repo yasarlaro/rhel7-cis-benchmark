@@ -3,3 +3,5 @@
   hosts: rhel7-cis
   roles:
     - audit
+    - services
+    - kernel-parameters

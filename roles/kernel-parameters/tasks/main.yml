@@ -1,0 +1,149 @@
+---
+# tasks file for kernel-parameters
+- name: Ensure sysctl net.ipv4.conf.default.accept_source_route is set
+  sysctl:
+    name: net.ipv4.conf.default.accept_source_route
+    value: "{{ sysctl_net_ipv4_conf_default_accept_source_route_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv4.icmp_ignore_bogus_error_responses is set
+  sysctl:
+    name: net.ipv4.icmp_ignore_bogus_error_responses
+    value: "{{ sysctl_net_ipv4_icmp_ignore_bogus_error_responses_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv4.conf.default.log_martians is set
+  sysctl:
+    name: net.ipv4.conf.default.log_martians
+    value: "{{ sysctl_net_ipv4_conf_default_log_martians_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv4.conf.default.rp_filter is set
+  sysctl:
+    name: net.ipv4.conf.default.rp_filter
+    value: "{{ sysctl_net_ipv4_conf_default_rp_filter_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv4.conf.all.secure_redirects is set
+  sysctl:
+    name: net.ipv4.conf.all.secure_redirects
+    value: "{{ sysctl_net_ipv4_conf_all_secure_redirects_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv4.conf.default.secure_redirects is set
+  sysctl:
+    name: net.ipv4.conf.default.secure_redirects
+    value: "{{ sysctl_net_ipv4_conf_default_secure_redirects_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv4.conf.all.accept_redirects is set
+  sysctl:
+    name: net.ipv4.conf.all.accept_redirects
+    value: "{{ sysctl_net_ipv4_conf_all_accept_redirects_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv4.conf.all.log_martians is set
+  sysctl:
+    name: net.ipv4.conf.all.log_martians
+    value: "{{ sysctl_net_ipv4_conf_all_log_martians_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv4.conf.all.rp_filter is set
+  sysctl:
+    name: net.ipv4.conf.all.rp_filter
+    value: "{{ sysctl_net_ipv4_conf_all_rp_filter_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv4.conf.all.accept_source_route is set
+  sysctl:
+    name: net.ipv4.conf.all.accept_source_route
+    value: "{{ sysctl_net_ipv4_conf_all_accept_source_route_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv4.icmp_echo_ignore_broadcasts is set
+  sysctl:
+    name: net.ipv4.icmp_echo_ignore_broadcasts
+    value: "{{ sysctl_net_ipv4_icmp_echo_ignore_broadcasts_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv4.tcp_syncookies is set
+  sysctl:
+    name: net.ipv4.tcp_syncookies
+    value: "{{ sysctl_net_ipv4_tcp_syncookies_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv4.conf.default.accept_redirects is set
+  sysctl:
+    name: net.ipv4.conf.default.accept_redirects
+    value: "{{ sysctl_net_ipv4_conf_default_accept_redirects_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv4.ip_forward is set to 0
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: "{{ sysctl_net_ipv4_ip_forward_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv4.conf.all.send_redirects is set to 0
+  sysctl:
+    name: net.ipv4.conf.all.send_redirects
+    value: "{{ sysctl_net_ipv4_conf_all_send_redirects_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv4.conf.default.send_redirects is set to 0
+  sysctl:
+    name: net.ipv4.conf.default.send_redirects
+    value: "{{ sysctl_net_ipv4_conf_default_send_redirects_value}}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv6.conf.all.accept_redirects is set
+  sysctl:
+    name: net.ipv6.conf.all.accept_redirects
+    value: "{{ sysctl_net_ipv6_conf_all_accept_redirects_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv6.conf.default.accept_ra is set
+  sysctl:
+    name: net.ipv6.conf.default.accept_ra
+    value: "{{ sysctl_net_ipv6_conf_default_accept_ra_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv6.conf.all.accept_ra is set
+  sysctl:
+    name: net.ipv6.conf.all.accept_ra
+    value: "{{ sysctl_net_ipv6_conf_all_accept_ra_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv6.conf.default.accept_redirects is set
+  sysctl:
+    name: net.ipv6.conf.default.accept_redirects
+    value: "{{ sysctl_net_ipv6_conf_default_accept_redirects_value }}"
+    state: present
+    reload: yes
+
+- name: Ensure sysctl net.ipv6.conf.all.disable_ipv6 is set to 1
+  sysctl:
+    name: net.ipv6.conf.all.disable_ipv6
+    value: "{{ sysctl_net_ipv6_conf_all_disable_ipv6 }}"
+    state: present
+    reload: yes
+
