@@ -1,2 +1,8 @@
 ---
 # tasks file for rhel7-cis-benchmark
+- name: Target OS distribution check
+  fail:
+    msg: "{{ ansible_hostname }} - {{ ansible_distribution_version }} is not certified."
+  when: 
+    - ansible_distribution not in cis_target_os_distribution or 
+      ansible_distribution_version not in cis_target_os_versions
